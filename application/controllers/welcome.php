@@ -19,8 +19,6 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
-		print_r('test');
-		exit();
 		$this->load->view('homepage');
 		//$this->load->view('welcome_message'); // default
 	}
