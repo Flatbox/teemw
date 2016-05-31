@@ -24,4 +24,8 @@ class Wares extends CI_Controller
 		$this->load->view('wares\displaytop', $data);
 		$this->load->view('wares\content', $data);
 	}
+	function displayWare($id){
+		$data = $this->waresmodel->get_wares_by_id($id);
+		$this->load->view('wares\display', $data);
+	}
 }

@@ -7,288 +7,378 @@
 
 $this->output->enable_profiler(true);
 
-echo form_open('offer/anserToRequest/'.$id);
-echo '<br/>';
-echo '<br/>';
+$presetValues  = array(
+  'dep_add_1' => $departure_loc['line1'],
+  'dep_add_2' => $departure_loc['line2'],
+  'dep_postcode' => $departure_loc['postCode'],
+  'dep_city' => $departure_loc['city'],
+  'dep_city_id' => $departure_loc['city_id'],
 
+  'dep_start' => substr ($departure_start , 0, 10),
+  'dep_start_hour' => substr ($departure_start , 11, 2),
+  'dep_start_minutes' => '15',
 
-// ---------------------------time array-----------------------------------
-$hours = array(
-  '' => '',
-  '00'  => '00',
-  '01'  => '01',
-  '02'  => '02',
-  '03'  => '03',
-  '04'  => '04',
-  '05'  => '05',
-  '06'  => '06',
-  '07'  => '07',
-  '08'  => '08',
-  '09'  => '09',
-  '10'  => '10',
-  '11'  => '11',
-  '12'  => '12',
-  '13'  => '13',
-  '14'  => '14',
-  '15'  => '15',
-  '16'  => '16',
-  '17'  => '17',
-  '18'  => '18',
-  '19'  => '19',
-  '20'  => '20',
-  '21'  => '21',
-  '22'  => '22',
-  '23'  => '23',
+  'dep_end' => substr ($departure_end , 0, 10),
+  'dep_end_hour' => substr ($departure_end , 11, 2),
+  'dep_end_minutes' => substr ($departure_end , 14, 2),
+
+  'arr_add_1' => $arrival_loc['line1'],
+  'arr_add_2' => $arrival_loc['line2'],
+  'arr_postcode' => $arrival_loc['postCode'],
+  'arr_city' => $arrival_loc['city'],
+  'arr_city_id' => $arrival_loc['city_id'],
+
+  'arr_start' => substr ($arrival_start , 0, 10),
+  'arr_start_hour' => substr ($arrival_start , 11, 2),
+  'arr_start_minutes' => substr ($arrival_start , 14, 2),
+
+  'arr_end' => substr ($arrival_end , 0, 10),
+  'arr_end_hour' => substr ($arrival_end , 11, 2),
+  'arr_end_minutes' => substr ($arrival_end , 14, 2)
 );
 
-$minutes = array(
+// Prepare all fields
 
-    '' => '',
-  '00'  => '00',
-  '15'  => '15',
-  '30'  => '30',
-  '45'  => '45'
-);
+  $hours = array(
+    '00'  => '00',
+    '01'  => '01',
+    '02'  => '02',
+    '03'  => '03',
+    '04'  => '04',
+    '05'  => '05',
+    '06'  => '06',
+    '07'  => '07',
+    '08'  => '08',
+    '09'  => '09',
+    '10'  => '10',
+    '11'  => '11',
+    '12'  => '12',
+    '13'  => '13',
+    '14'  => '14',
+    '15'  => '15',
+    '16'  => '16',
+    '17'  => '17',
+    '18'  => '18',
+    '19'  => '19',
+    '20'  => '20',
+    '21'  => '21',
+    '22'  => '22',
+    '23'  => '23',
+  );
 
-// ---------------------------Departure address line 1--------------------------
-$textfieldData = array(
-  'id'          => 'price',
-  'maxlength'   => '80',
-  'size'        => '30',
-  'name'       	=> 'price',
-  'value'				=> set_value('price')
-);
+  $minutes = array(
+    '00'  => '00',
+    '15'  => '15',
+    '30'  => '30',
+    '45'  => '45'
+  );
 
-echo form_label('Prix proposé: ');
-echo form_input($textfieldData);
-echo form_error('price');
-echo '<br/>';
-echo '<br/>';
+  $priceField = array(
+    'id'          => 'price',
+    'maxlength'   => '10',
+    'size'        => '10',
+    'name'       	=> 'price',
+    'style'       => 'max-width: 180px',
+  );
 
-// ---------------------------Departure address line 1--------------------------
-$textfieldData = array(
-  'id'          => 'dep_add_1',
-  'maxlength'   => '80',
-  'size'        => '30',
-  'name'       	=> 'dep_add_1',
-  'value'				=> $departure_loc['line1']
-);
+  $departureAddressLine1Field = array(
+    'id'          => 'dep_add_1',
+    'maxlength'   => '80',
+    'size'        => '30',
+    'name'       	=> 'dep_add_1',
+    'value'       => $presetValues['dep_add_1'],
+    'style'       => 'max-width: 400px',
+    'class'       => 'form-control'
+  );
 
-echo form_label('Dep Address line 1: ');
-echo form_input($textfieldData);
-echo form_error('dep_add_1');
-echo '<br/>';
+  $departureAddressLine2Field = array(
+    'id'          => 'dep_add_2',
+    'maxlength'   => '80',
+    'size'        => '30',
+    'name'       	=> 'dep_add_2',
+    'value'       => $presetValues['dep_add_2'],
+    'style'       => 'max-width: 400px',
+    'class'       => 'form-control'
+  );
 
-// ---------------------------Departure address line 2--------------------------
-$textfieldData = array(
-  'id'          => 'dep_add_2',
-  'maxlength'   => '80',
-  'size'        => '30',
-  'name'       	=> 'dep_add_2',
-  'value'				=> $departure_loc['line2']
-);
+  $departurePostcodeField = array(
+    'id'          => 'dep_postcode',
+    'maxlength'   => '8',
+    'size'        => '8',
+    'name'       	=> 'dep_postcode',
+    'value'       => $presetValues['dep_postcode'],
+    'class'       => 'form-control postcode',
+    'style'       => 'max-width: 180px'
+  );
 
-echo form_label('Dep Address line 2: ');
-echo form_input($textfieldData);
-echo form_error('dep_add_2');
-echo '<br/>';
+  $departureCityId =array(
+    'type'        =>'hidden',
+    'id'          =>'dep_city_id',
+    'class'       => 'city_id',
+    'name'        => 'dep_city_id',
+    'value'       => $presetValues['dep_city_id']
+  );
 
-// ---------------------------Departure postcode-------------------------------
-$textfieldData = array(
-  'id'          => 'dep_postcode',
-  'maxlength'   => '8',
-  'size'        => '8',
-  'name'       	=> 'dep_postcode',
-  'class'       => 'postcode',
-  'value'				=> $departure_loc['postCode']
-);
-echo "<div>";
-echo form_label('Departure postcode: ');
-echo form_input($textfieldData);
-echo form_error('dep_postcode');
+  $departureCityField = array(
+    'id'          => 'dep_city',
+    'size'        => '30',
+    'name'       	=> 'dep_city',
+    'value'       => $presetValues['dep_city'],
+    'class'       => 'form-control city',
+    'style'       => 'max-width: 400px',
+    'readonly'    => 'true'
+  );
 
-// ---------------------------Departure city-----------------------------------
-$textfieldData = array(
-  'id'          => 'dep_city',
-  'size'        => '30',
-  'name'       	=> 'dep_city',
-  'class'       => 'city',
-  'value'				=> $departure_loc['city'],
-  'readonly'    => 'true'
-);
+  $departureDateStartField = array(
+    'id'          => 'dep_start',
+    'maxlength'   => '10',
+    'size'        => '10',
+    'name'       	=> 'dep_start',
+    'value'       => $presetValues['dep_start'],
+    'style'       => 'max-width: 180px',
+    'class'       => 'form-control date'
+  );
 
-echo form_label('Departure city: ');
-echo form_input($textfieldData);
-echo form_error('dep_city');
+  $departureDateEndField = array(
+    'id'          => 'dep_end',
+    'maxlength'   => '10',
+    'size'        => '10',
+    'name'       	=> 'dep_end',
+    'value'       => $presetValues['dep_end'],
+    'style'       => 'max-width: 180px',
+    'class'       => 'form-control date'
+  );
 
-echo form_input(array('type'=>'hidden', 'id' =>'dep_city_id', 'class' => 'city_id', 'name' => 'dep_city_id', 'value' => $departure_loc['city_id']));
-echo "</div>";
+  $arrivalAddressLine1Field = array(
+    'maxlength'   => '80',
+    'size'        => '30',
+    'name'       	=> 'arr_add_1',
+    'id'          => 'arr_add_1',
+    'value'       => $presetValues['arr_add_1'],
+    'style'       => 'max-width: 400px',
+    'class'       => 'form-control'
+  );
 
-// ---------------------------Departure date start------------------------------
-$textfieldData = array(
-  'id'          => 'dep_start',
-  'maxlength'   => '10',
-  'size'        => '10',
-  'name'       	=> 'dep_start',
-  'value'				=> substr ($arrival_start , 0, 10),
-  'class'       => 'date'
-);
+  $arrivalAddressLine2Field = array(
+    'maxlength'   => '80',
+    'size'        => '30',
+    'name'       	=> 'arr_add_2',
+    'id'          => 'arr_add_2',
+    'value'       => $presetValues['arr_add_2'],
+    'style'       => 'max-width: 400px',
+    'class'       => 'form-control'
+  );
 
-echo form_label('Departature date start: ');
-echo form_input($textfieldData);
-echo form_error('dep_start');
-echo '<br/>';
+  $arrivalPostcodeField = array(
+    'maxlength'   => '8',
+    'size'        => '8',
+    'name'       	=> 'arr_postcode',
+    'id'          => 'arr_postcode',
+    'value'       => $presetValues['arr_postcode'],
+    'style'       => 'max-width: 180px',
+    'class'       => 'form-control postcode'
+  );
 
-// ---------------------------Departure time start------------------------------
-echo form_label('Departure start hour: ');
-echo form_dropdown('dep_start_hour', $hours);
-echo form_label('minutes: ');
-echo form_dropdown('dep_start_minutes', $minutes);
-echo '<br/>';
+  $arrivalCityId =array(
+    'type'        =>'hidden',
+    'id'          =>'arr_city_id',
+    'class'       => 'city_id',
+    'name'        => 'arr_city_id',
+    'value'       => $presetValues['arr_city_id']
+  );
 
-// ---------------------------Departure date end--------------------------------
-$textfieldData = array(
-  'id'          => 'dep_end',
-  'maxlength'   => '10',
-  'size'        => '10',
-  'name'       	=> 'dep_end',
-  'value'				=> substr ($arrival_end , 0, 10),
-  'class'       => 'date'
-);
+  $arrivalCityField = array(
+    'size'        => '30',
+    'name'       	=> 'arr_city',
+    'id'          => 'arr_city',
+    'value'       => $presetValues['arr_city'],
+    'class'       => 'form-control city',
+    'style'       => 'max-width: 400px',
+    'readonly'    => 'true'
+  );
 
-echo form_label('Departature date end: ');
-echo form_input($textfieldData);
-echo form_error('dep_end');
-echo '<br/>';
+  $arrivalDateStartField = array(
+    'id'          => 'arr_start',
+    'maxlength'   => '10',
+    'size'        => '10',
+    'name'       	=> 'arr_start',
+    'value'       => $presetValues['arr_start'],
+    'style'       => 'max-width: 180px',
+    'class'       => 'form-control date'
+  );
 
-// ---------------------------Departure time end------------------------------
-echo form_label('Departure end hour: ');
-echo form_dropdown('dep_end_hour', $hours);
-echo form_label('minutes: ');
-echo form_dropdown('dep_end_minutes', $minutes);
+  $arrivalDateEndField = array(
+    'id'          => 'arr_end',
+    'maxlength'   => '10',
+    'size'        => '10',
+    'name'       	=> 'arr_end',
+    'value'       => $presetValues['arr_end'],
+    'style'       => 'max-width: 180px',
+    'class'       => 'form-control date'
+  );
 
-$textfieldData = array(
-  'id'          => 'dep_end',
-  'maxlength'   => '10',
-  'size'        => '10',
-  'name'       	=> 'dep_end',
-  'value'				=> substr ($arrival_end , 0, 10),
-  'class'       => 'time'
-);
-
-set_value('dep_end_hour', '10');
-set_value('dep_end_minutes', '30');
-
+// ----------------------------------------------------------------------------
+  echo form_open('offer/anserToRequest/'.$id);
+?>
+<div class="form-group">
+  <?php
+    echo form_label('Prix: ');
+    echo form_input($priceField);
+    echo '<div style="color: red">' . form_error('price') . '</div>';
+  ?>
+</div>
 
 
-echo '<br/>';
 
+<!-- Departure address line 1 -->
+<div class="form-group">
+  <?php
+    echo form_label('Adresse de départ ligne 1: ');
+    echo form_input($departureAddressLine1Field);
+    echo '<div style="color: red">' . form_error('dep_add_1') . '</div>';
+  ?>
+</div>
 
-echo '<br/>';
+<!-- Departure address line 2 -->
+<div class="form-group">
+  <?php
+    echo form_label('Adresse de départ ligne 2: ');
+    echo form_input($departureAddressLine2Field);
+    echo '<div style="color: red">' . form_error('dep_add_2') . '</div>';
+  ?>
+</div>
 
-// ---------------------------Arrival address line 1----------------------------
-$textfieldData = array(
-  'maxlength'   => '80',
-  'size'        => '30',
-  'name'       	=> 'arr_add_1',
-  'id'          => 'arr_add_1',
-  'value'				=> $arrival_loc['line1']
-);
+<!-- Departure postcode -->
+<div class="form-group">
+  <?php
+    echo form_label('Code postal de départ: ');
+    echo form_input($departurePostcodeField);
+    echo '<div style="color: red">' . form_error('dep_city') . '</div>';
 
-echo form_label('Arrival Address line 1: ');
-echo form_input($textfieldData);
-echo form_error('arr_add_1');
-echo '<br/>';
+// Departure city
+    echo '<br/>';
+    echo form_label('Ville de départ: ');
+    echo form_input($departureCityField);
+    echo form_input($departureCityId);
+  ?>
+</div>
+<?php
+// Departure date start
+  echo form_label('Plage temporelle de prise en charge de la marchandise');
+?>
+<div class="row">
+  <div class="form-group col-md-6">
+    <?php
+      echo form_label('Début: ');
+      echo '<br/>';
+      echo form_label('Date: ');
+      echo form_input($departureDateStartField);
+      echo '<div style="color: red">' . form_error('dep_start') . '</div>';
 
-// ---------------------------Arrival address line 2----------------------------
-$textfieldData = array(
-  'maxlength'   => '80',
-  'size'        => '30',
-  'name'       	=> 'arr_add_2',
-  'id'          => 'arr_add_2',
-  'value'				=> $arrival_loc['line2']
-);
+// Departure time start
+      echo form_label('Heure : &nbsp');
+      echo form_dropdown('dep_start_hour', $hours, $presetValues['dep_start_hour']);
+      echo '&nbsp';
+      echo form_label('&nbspMinutes: &nbsp');
+      echo form_dropdown('dep_start_minutes', $minutes, $presetValues['dep_start_minutes']);
+    ?>
+  </div>
 
-echo form_label('Arrival Address line 2: ');
-echo form_input($textfieldData);
-echo form_error('arr_add_2');
-echo '<br/>';
+<!-- Departure date end -->
+  <div class="form-group col-md-6">
+    <?php
+      echo form_label('Fin: ');
+      echo '<br/>';
+      echo form_label('Date: ');
+      echo form_input($departureDateEndField);
+      echo '<div style="color: red">' . form_error('dep_end') . '</div>';
 
-// ---------------------------Arrival postcode----------------------------------
-$textfieldData = array(
-  'maxlength'   => '8',
-  'size'        => '8',
-  'name'       	=> 'arr_postcode',
-  'id'          => 'arr_postcode',
-  'class'       => 'postcode',
-  'value'				=> $arrival_loc['postCode']
-);
+// Departure time end
+      echo form_label('Heure : &nbsp');
+      echo form_dropdown('dep_end_hour', $hours, $presetValues['dep_end_hour']);
+      echo '&nbsp';
+      echo form_label('&nbspMinutes: &nbsp');
+      echo form_dropdown('dep_end_minutes', $minutes, $presetValues['dep_end_minutes']);
+    ?>
+  </div>
+</div>
 
-echo "<div>";
-echo form_label('Arrival postcode: ');
-echo form_input($textfieldData);
-echo form_error('arr_postcode');
+<!-- Arrival address line 1 -->
+<div class="form-group">
+  <?php
+    echo form_label('Adresse d\'arrivée ligne 1: ');
+    echo form_input($arrivalAddressLine1Field);
+    echo '<div style="color: red">' . form_error('arr_add_1') . '</div>';
+  ?>
+</div>
 
-// ---------------------------Arrival city--------------------------------------
-$textfieldData = array(
-  'size'        => '30',
-  'name'       	=> 'arr_city',
-  'id'          => 'arr_city',
-  'class'       => 'city',
-  'value'				=> $arrival_loc['city'],
-  'readonly'    => 'true'
-);
+ <!-- Arrival address line 2 -->
+<div class="form-group">
+  <?php
+    echo form_label('Adresse d\'arrivée ligne 2: ');
+    echo form_input($arrivalAddressLine2Field);
+    echo form_error('arr_add_2');
+  ?>
+</div>
 
-echo form_label('Arrival city: ');
-echo form_input($textfieldData);
-echo form_error('arr_city');
-echo form_input(array('type'=>'hidden', 'id' =>'arr_city_id', 'class' => 'city_id', 'name' => 'arr_city_id', 'value' => $arrival_loc['city_id']));
-echo "</div>";
+ <!-- Arrival postcode -->
+<div class="form-group">
+  <?php
+    echo form_label('Code postal d\'arrivée: ');
+    echo form_input($arrivalPostcodeField);
+    echo '<div style="color: red">' . form_error('arr_city') . '</div>';
 
-// ---------------------------Arrival date start------------------------------
-$textfieldData = array(
-  'id'          => 'arr_start',
-  'maxlength'   => '10',
-  'size'        => '10',
-  'name'       	=> 'arr_start',
-  'value'				=> substr ($arrival_start , 0, 10),
-  'class'       => 'date'
-);
+// Arrival city
+    echo '<br/>';
+    echo form_label('Ville d\'arrivée: ');
+    echo form_input($arrivalCityField);
+    echo form_input($arrivalCityId);
+  ?>
+</div>
 
-echo form_label('Arrival date start: ');
-echo form_input($textfieldData);
-echo form_error('arr_start');
-echo '<br/>';
+<!-- Arrival date start -->
+<?php
+  echo form_label('Plage temporelle de remise de la marchandise');
+?>
+<div class="row">
+  <div class="form-group col-md-6">
+    <?php
+      echo form_label('Début: ');
+      echo '<br>';
+      echo form_label('Date: ');
+      echo form_input($arrivalDateStartField);
+      echo '<div style="color: red">' . form_error('arr_start') . '</div>';
 
-// ---------------------------Arrival time start------------------------------
-echo form_label('Arrival start hour: ');
-echo form_dropdown('arr_start_hour', $hours);
-echo form_label('minutes: ');
-echo form_dropdown('arr_start_minutes', $minutes);
-echo '<br/>';
+// Arrival time start
+      echo form_label('Heure : &nbsp');
+      echo form_dropdown('arr_start_hour', $hours);
+      echo '&nbsp';
+      echo form_label('&nbspMinutes: &nbsp');
+      echo form_dropdown('arr_start_minutes', $minutes);
+    ?>
+  </div>
 
-// ---------------------------Arrival date end--------------------------------
-$textfieldData = array(
-  'id'          => 'arr_end',
-  'maxlength'   => '10',
-  'size'        => '10',
-  'name'       	=> 'arr_end',
-  'value'				=> substr ($arrival_end , 0, 10),
-  'class'       => 'date'
-);
+<!-- Arrival date end -->
+  <div class="form-group col-md-6">
+    <?php
+      echo form_label('Fin: ');
+      echo '<br/>';
+      echo form_label('Date: ');
+      echo form_input($arrivalDateEndField);
+      echo '<div style="color: red">' . form_error('arr_end') . '</div>';
 
-echo form_label('Arrival date end: ');
-echo form_input($textfieldData);
-echo form_error('arr_end');
-echo '<br/>';
+// Arrrival time end
+      echo form_label('Heure : &nbsp');
+      echo form_dropdown('arr_end_hour', $hours);
+      echo '&nbsp';
+      echo form_label('&nbspMinutes: &nbsp');
+      echo form_dropdown('arr_end_minutes', $minutes);
+    ?>
+  </div>
+</div>
 
-// ---------------------------Arrrival time end------------------------------
-echo form_label('Arrival end hour: ');
-echo form_dropdown('arr_end_hour', $hours);
-echo form_label('minutes: ');
-echo form_dropdown('arr_end_minutes', $minutes);
+<<?php
 
-echo '<br/>';
 
 // ---------------------------Submit button-------------------------------------
 echo form_submit('submit',"proposer l'offre");

@@ -60,5 +60,13 @@ class RequestModel extends CI_Model
     return $respons;
 
   }
+  function getValideRequest(){
+    $sql = "SELECT * FROM request WHERE expirationDate >= NOW()";
+    $query = $this->db->query($sql);
+
+    $data = $query->row(0);
+
+    return $query->result_array();
+  }
 
 }
