@@ -35,40 +35,31 @@ class CitiesModel extends CI_Model
     $this->db->insert('address', $data); // Create a new address
     return $this->db->insert_id(); // Return the ID of the last insert
   }
+  
   function get_adress_by_id($id){
-    $adress;
-
+    // Get the address
     $this->db->where('id', $id);
     $query = $this->db->get('address');
+    $adress = $query->row_array();
 
-    if ($query->num_rows() != 1)
-    return NULL;
-
-    $row = $query->row(0);
-    $adress = get_object_vars($row);
-
-
+    // Get the city by the id returned above
     $this->db->where('id', $adress['city']);
     $query = $this->db->get('cities');
-    unset($adress['city']);
+    $tmp = $query->row_array();
 
-    $row = $query->row(0);
-    $tmp = get_object_vars($row);
-
-    $adress['city_id'] = $tmp['id']; 
+    // Format the array
+    $adress['city_id'] = $tmp['id'];
     $adress['postCode'] = $tmp['postCode'];
     $adress['city'] = $tmp['name'];
     $adress['state'] = $tmp['state'];
 
+    // Get the name of the country by the iso_code
     $this->db->where('iso_code', $adress['state']);
     $query = $this->db->get('states');
-
-    $row = $query->row(0);
-    $tmp = get_object_vars($row);
+    $tmp = $query->row_array();
 
     $adress['full_state'] = $tmp['name_FR'];
 
     return $adress;
-
   }
 }

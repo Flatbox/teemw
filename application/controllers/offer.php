@@ -7,34 +7,28 @@ class Offer extends CI_Controller
 		parent::__construct();
 
 		// Not logged in -> Redirect to login
-
 		if (!$this->tank_auth->is_logged_in()) {
 			redirect('');
 		}
-
 	}
 
-	function showValideRequest()
+	function showValidRequest()
 	{
-		$allRequest = $this->requestmodel->getValideRequest();
+		$allRequest = $this->requestmodel->getValidRequest();
 
-		$this->load->view('request/show',$requestData);
-
-		$this->load->library('../controllers/wares');
 		foreach ($allRequest as  $requestData) {
 			unset($requestData['owner']);
 			$requestData['departure_loc'] = $this->citiesmodel->get_adress_by_id($requestData['departure_loc']);
 			$requestData['arrival_loc'] = $this->citiesmodel->get_adress_by_id($requestData['arrival_loc']);
-
 			$requestData['mode'] = 'BROOKERS';
+
 			$ware = $this->waresmodel->get_wares_by_id($requestData['wares']);
 
 			$this->load->view('request/show',$requestData);
 			$this->load->view('wares/display', $ware);
-
 		}
-echo "fini";
 	}
+
 	function anserToRequest($id){
 
 
