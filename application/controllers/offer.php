@@ -18,7 +18,7 @@ class Offer extends CI_Controller
 	{
 		$allRequest = $this->requestmodel->getValideRequest();
 
-					$this->load->view('request/show',$requestData);
+		$this->load->view('request/show',$requestData);
 
 		$this->load->library('../controllers/wares');
 		foreach ($allRequest as  $requestData) {

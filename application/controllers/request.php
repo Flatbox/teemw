@@ -8,7 +8,7 @@ class Request extends CI_Controller
 
 		// Not logged in -> Redirect to login
 		if (!$this->tank_auth->is_logged_in()) {
-		//	redirect('');
+			redirect('');
 		}
 	}
 
