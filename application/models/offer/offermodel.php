@@ -57,4 +57,20 @@ class OfferModel extends CI_Model
     $this->db->insert('offer', $insert); // Create a new offer
   }
 
+  function get_number_of_offer($request){
+
+    $cmpt=0;
+
+    $this->db->where('request', $request);
+    $query = $this->db->get('offer');
+
+    if ($query->num_rows() < 1)
+    return $cmpt;
+
+    $row = $query->result_array();
+
+    return $cmpt=count($row);
+
+  }
+
 }

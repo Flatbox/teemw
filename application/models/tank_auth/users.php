@@ -41,6 +41,23 @@ class Users extends CI_Model
 		return NULL;
 	}
 
+	function get_userName_by_id($user_id)
+	{
+		$this->db->where('id', $user_id);
+
+		$query = $this->db->get($this->table_name);
+		if ($query->num_rows() == 1){
+			$row = $query->row();
+
+    $respons =  array(
+      'username' => $row->username,
+    );
+
+		return $respons;
+	}
+	return NULL;
+	}
+
 	/**
 	 * Get user record by login (username or email)
 	 *

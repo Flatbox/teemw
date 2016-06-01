@@ -129,7 +129,7 @@ class Request extends CI_Controller
 		}
 	}
 function test(){
-	$this->get_request_by_owner(1);
+	$this->get_owner_information(2);
 }
 
 	function showRequestById($id){
@@ -145,12 +145,23 @@ function test(){
 
 	}
 
-	function get_request_by_owner($owner) {
+	function get_owner_information($owner) {
+		$ownerData = $this->users->get_userName_by_id(2);
+
+		$this->load->view('request\ownerInformation', $ownerData);
+		$this->displayRequestByOwner($owner);
+	}
+
+	function displayRequestByOwner($owner){
 		$data = $this->requestmodel->get_request_by_owner($owner);
-		$data['departure_loc'] = $this->citiesmodel->get_adress_by_id($data['departure_loc']);
-		$data['arrival_loc'] = $this->citiesmodel->get_adress_by_id($data['arrival_loc']);
-		$data['wares'] = $this->waresmodel->get_wares_by_id($data['wares']);
-		$this->load->view('request\list_element', $data);
+
+		foreach($data as $key => $value){
+		$data[$key]['nbrOffre'] = $this->offermodel->get_number_of_offer($data[$key]['id']);
+		$data[$key]['wares'] = $this->waresmodel->get_wares_by_id($data[$key]['wares']);
+		$data[$key]['departure_loc'] = $this->citiesmodel->get_adress_by_id($data[$key]['departure_loc']);
+		$data[$key]['arrival_loc'] = $this->citiesmodel->get_adress_by_id($data[$key]['arrival_loc']);
+		$this->load->view('request\list_element', $data[$key]);
+	}
 	}
 
 
