@@ -19,8 +19,6 @@ class Request extends CI_Controller
 	function createRequest() {
 		$this->output->enable_profiler(true);
 		$this->form_validation->set_rules('exp_date', 'date d\'expiration', 'trim|required|date');
-//<<<<<<< HEAD
-//=======
 		$this->form_validation->set_rules('dep_add_1', 'adresse de départ ligne 1', 'required');
 		$this->form_validation->set_rules('dep_city', 'ville de départ', 'required');
 		$this->form_validation->set_rules('dep_start', 'date départ début', 'trim|required|date');
@@ -30,7 +28,6 @@ class Request extends CI_Controller
 		$this->form_validation->set_rules('arr_start', 'date d\'arrivée début', 'trim|required|date');
 		$this->form_validation->set_rules('arr_end', 'date d\'arrivée fin', 'trim|required|date');
 		$this->form_validation->set_rules('wares_created', 'sélection marchandises', 'required');
-//>>>>>>> origin/master
 
 		if ($this->form_validation->run() == FALSE)
 		{
@@ -122,27 +119,15 @@ class Request extends CI_Controller
 		}
 	}
 
-	function get_cities_by_postcode(){
-		if (isset($_GET['term'])){
-			$q = strtolower($_GET['term']);
-			$this->citiesModel->get_cities_by_postcode($q);
-		}
-	}
-function test(){
-	$this->get_request_by_owner(1);
-}
-
 	function showRequestById($id){
 		$requestData = $this->requestmodel->getRequestById($id);
 		unset($requestData['owner']);
 		$requestData['departure_loc'] = $this->citiesmodel->get_adress_by_id($requestData['departure_loc']);
 		$requestData['arrival_loc'] = $this->citiesmodel->get_adress_by_id($requestData['arrival_loc']);
 
-
 		$this->load->view('request\show',$requestData);
 		$this->load->library('../controllers/wares');
 		$this->wares->displayWareById($requestData['wares']);
-
 	}
 
 	function get_request_by_owner($owner) {
@@ -152,6 +137,4 @@ function test(){
 		$data['wares'] = $this->waresmodel->get_wares_by_id($data['wares']);
 		$this->load->view('request\list_element', $data);
 	}
-
-
 }
