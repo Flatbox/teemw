@@ -29,9 +29,12 @@ array(9) {
 	["arrival_end"]=> string(19) "2016-05-23 00:00:00"
 }
 */
-
-$CI = &get_instance();
-$CI->load->library('table');
+$timeTitle = array(
+  'de' => 'de',
+  'à' => 'à');
+$adressTitle = array(
+    'de' => 'depart',
+    'à' => 'arrivée');
 
 if (isset($mode)== false){
   $mode = 'DISPLAY';
@@ -41,33 +44,62 @@ echo "<h1> demande d'offre </h1>";
 echo "<h3>valide jusqu'à: ";
 echo form_label($expirationDate);
 echo '</h3>';
+
 if ($mode == 'BROOKERS'){
-// $js = 'onClick="redirect(\'' . base_url() . 'offer/anserToRequest/'.$id.'\')"';
 echo anchor('offer/anserToRequest/' . $id, 'proposer une offre', "class='btn btn-default'");
-// echo form_button('anserTo_'+$id,'proposer une offre', $js);
 }
-
-$titleRow = array(
-  'de' => 'de',
-  'à' => 'à');
-
-$departure= array(
-    $titleRow,
-    array($departure_start, $departure_end)
-);
-$arrival = array(
-  $titleRow,
-  array($arrival_start, $arrival_end)
-);
-
-$adresse =  array(
-  $titleRow,
-  array($departure_loc['line1'], $arrival_loc['line1']),
-  array($departure_loc['line2'], $arrival_loc['line2']),
-  array($departure_loc['postCode'].' '.$departure_loc['city'], $arrival_loc['postCode'].' '.$arrival_loc['city']),
-  array($departure_loc['state'].' '.$departure_loc['full_state'], $arrival_loc['state'].' '.$arrival_loc['full_state']),
-  array('disponnibilité pour enlèvement', 'disponibilité pour livairson'),
-  array($CI->table->generate($departure),$CI->table->generate($arrival))
-);
-echo $CI->table->generate($adresse);
- ?>
+  echo '<div class="panel-heading">localisation</div>
+  <table class="table">
+  <tr>';
+  foreach ($adressTitle as $key => $value) {
+  echo '<th>'.$value.'</th>';
+  }
+  echo	'</tr>';
+  echo '<tr>';
+    echo '<td>'.$departure_loc['line1'].'</td>';
+    echo '<td>'.$arrival_loc['line1'].'</td>';
+  echo '</tr>';
+  echo '<tr>';
+    echo '<td>'.$departure_loc['line2'].'</td>';
+    echo '<td>'.$arrival_loc['line2'].'</td>';
+  echo '</tr>';
+  echo '<tr>';
+    echo '<td>'.$departure_loc['postCode'].'&nbsp'.$departure_loc['city'].'</td>';
+    echo '<td>'.$arrival_loc['postCode'].'&nbsp'.$arrival_loc['city'].'</td>';
+  echo '</tr>';
+  echo '<tr>';
+    echo '<td>'.$departure_loc['state'].'&nbsp'.$departure_loc['full_state'].'</td>';
+    echo '<td>'.$arrival_loc['state'].'&nbsp'.$arrival_loc['full_state'].'</td>';
+  echo '</tr>';
+echo'</table>';
+?>
+  <div class="panel-heading">Plage temporelle de prise en charge de la marchandise</div>
+  <div>
+    <?php
+    echo form_label("de :");
+    echo "&nbsp";
+    echo form_label($departure_start);
+    ?>
+  </div>
+  <div>
+    <?php
+    echo form_label("à :");
+    echo "&nbsp";
+    echo form_label($departure_end);
+    ?>
+  </div>
+  <div class="panel-heading">Plage temporelle de remise de la marchandise</div>
+  <div>
+    <?php
+    echo form_label("de :");
+    echo "&nbsp";
+    echo form_label($arrival_start);
+    ?>
+  </div>
+  <div>
+    <?php
+    echo form_label("à :");
+    echo "&nbsp";
+    echo form_label($arrival_end);
+    ?>
+  </div>

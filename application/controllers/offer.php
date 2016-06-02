@@ -7,35 +7,34 @@ class Offer extends CI_Controller
 		parent::__construct();
 
 		// Not logged in -> Redirect to login
-
 		if (!$this->tank_auth->is_logged_in()) {
 			redirect('');
 		}
-
 	}
 
-	function showValideRequest()
+	function showValidRequest()
 	{
-		$allRequest = $this->requestmodel->getValideRequest();
+		$allRequest = $this->requestmodel->getValidRequest();
 
-					$this->load->view('request/show',$requestData);
-
-		$this->load->library('../controllers/wares');
 		foreach ($allRequest as  $requestData) {
 			unset($requestData['owner']);
 			$requestData['departure_loc'] = $this->citiesmodel->get_adress_by_id($requestData['departure_loc']);
 			$requestData['arrival_loc'] = $this->citiesmodel->get_adress_by_id($requestData['arrival_loc']);
-
 			$requestData['mode'] = 'BROOKERS';
 
-			$this->load->view('request/show',$requestData);
+			$ware = $this->waresmodel->get_wares_by_id($requestData['wares']);
 
-			$this->wares->displayWareById($requestData['wares']);
+			$this->load->view('request/show',$requestData);
+			$this->load->view('wares/display', $ware);
 		}
 	}
+
 	function anserToRequest($id){
 
+
 		$this->output->enable_profiler(true);
+
+
 
 		//-----------------------POPULATE REQUEST INFOS----------------
 		$requestData = $this->requestmodel->getRequestById($id);
@@ -43,8 +42,6 @@ class Offer extends CI_Controller
 		$requestData['departure_loc'] = $this->citiesmodel->get_adress_by_id($requestData['departure_loc']);
 		$requestData['arrival_loc'] = $this->citiesmodel->get_adress_by_id($requestData['arrival_loc']);
 
-		$this->load->library('../controllers/wares');
-		$this->wares->displayWareById($requestData['wares']);
 
 
 		//$this->load->view('request\show',$requestData);
@@ -54,20 +51,21 @@ class Offer extends CI_Controller
 
 		$this->form_validation->set_rules('price', 'price', 'required');
 
+
 		//-------------------TREATMENT-------------------------------
 		if ($this->form_validation->run() == FALSE)
 		{
-
-			$this->load->view('offer\offer_form',$requestData);
-
+			$ware = $this->waresmodel->get_wares_by_id($requestData['wares']);
+			$this->load->view('wares/display', $ware);
+			$this->load->view('offer/offer_form',$requestData);
 		}
+
 		else {
-			/*
+
 			$owner = $this->session->userdata('user_id');
 			$request = $id;
 			$price = $this->input->post('price');
 			$this->offermodel->createOffer($owner, $request, $price);
-			*/
 
 			$insert = array(
 				'owner'  => $this->session->userdata('user_id'),
@@ -97,6 +95,7 @@ class Offer extends CI_Controller
 			}
 			$this->offermodel->createOfferArray($insert);
 			redirect((base_url() . 'offer/showValideRequest'));
+
 		}
 
 

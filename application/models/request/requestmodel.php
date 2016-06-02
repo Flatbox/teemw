@@ -44,6 +44,7 @@ class RequestModel extends CI_Model
     $this->db->where('owner', $owner);
     $query = $this->db->get('request');
 
+<<<<<<< HEAD
   return $query->result_array();
 
   }
@@ -51,3 +52,14 @@ class RequestModel extends CI_Model
 
 
   }
+=======
+    return $respons;
+  }
+
+  function getValidRequest(){
+    $this->db->where('expirationDate >=', 'NOW()', FALSE);
+    $query = $this->db->get('request');
+    return $query->result_array();
+  }
+}
+>>>>>>> origin/master

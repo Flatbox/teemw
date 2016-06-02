@@ -12,11 +12,12 @@ class Address extends CI_Controller
 		}
 	}
 
+	// Function called by the autocomplete jquery plugin to
+	// get cities by postcode
   function get_cities_by_postcode(){
 		if (isset($_GET['term'])){
 			$q = strtolower($_GET['term']);
 			$this->citiesmodel->get_cities_by_postcode($q);
 		}
 	}
-
 }
